@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BreatheEasy - COPD Prediction & Awareness</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-lungs"></i>
+                <span>BreatheEasy</span>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#predict">Predict COPD</a></li>
+                    <li><a href="#connect">Connect with Doctor</a></li>
+                    <li><a href="#about">About COPD</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Early Detection Saves Lives</h1>
+                <p>Take control of your respiratory health with our advanced COPD prediction tool and expert medical connections.</p>
+                <div class="hero-buttons">
+                    <a href="#predict" class="btn primary">Check Your Risk</a>
+                    <a href="#connect" class="btn secondary">Talk to a Specialist</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Healthy lungs illustration">
+            </div>
+        </div>
+    </section>
+
+    <!-- COPD Awareness Section -->
+    <section class="awareness">
+        <div class="container">
+            <h2>Understanding COPD</h2>
+            <div class="awareness-cards">
+                <div class="card">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>What is COPD?</h3>
+                    <p>Chronic Obstructive Pulmonary Disease (COPD) is a chronic inflammatory lung disease that causes obstructed airflow from the lungs.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-user-md"></i>
+                    <h3>Early Signs</h3>
+                    <p>Shortness of breath, chronic cough, wheezing, and frequent respiratory infections can be early indicators.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Why Early Detection?</h3>
+                    <p>Early diagnosis and treatment can slow disease progression and improve quality of life significantly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prediction Section -->
+   <!-- Add this to your existing HTML file -->
+<section class="prediction" id="predict">
+    <div class="container">
+        <h2>Comprehensive COPD Risk Assessment</h2>
+        <p>Complete this detailed form for an accurate COPD risk evaluation based on clinical parameters.</p>
+        
+        <div class="prediction-form">
+            <form id="copdForm">
+                <div class="form-columns">
+                    <!-- Column 1 -->
+                    <div class="form-column">
+                        <h3>Personal Information</h3>
+                        
+                        <div class="form-group">
+                            <label for="age">Age (years)</label>
+                            <input type="number" id="age" name="age" min="18" max="100" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender" required>
+                                <option value="">Select</option>
+                                <option value="1">Male</option>
+                                <option value="0">Female</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="height">Height (cm)</label>
+                            <input type="number" id="height" name="height" min="100" max="250" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="weight">Weight (kg)</label>
+                            <input type="number" id="weight" name="weight" min="30" max="200" step="0.1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="bmi">BMI</label>
+                            <input type="number" id="bmi" name="bmi" min="15" max="50" step="0.1" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 2 -->
+                    <div class="form-column">
+                        <h3>Smoking History</h3>
+                        
+                        <div class="form-group">
+                            <label for="smoking_status">Smoking Status</label>
+                            <select id="smoking_status" name="smoking_status" required>
+                                <option value="">Select</option>
+                                <option value="0">Never Smoked</option>
+                                <option value="1">Former Smoker</option>
+                                <option value="2">Current Smoker</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pack_years">Pack Years</label>
+                            <input type="number" id="pack_years" name="pack_years" min="0" max="100" step="0.1" required>
+                            <small>Number of packs per day × years smoked</small>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 3 -->
+                    <div class="form-column">
+                        <h3>Lung Function Tests</h3>
+                        
+                        <div class="form-group">
+                            <label for="fev1">FEV1 (ml)</label>
+                            <input type="number" id="fev1" name="fev1" min="500" max="5000" required>
+                            <small>Forced Expiratory Volume in 1 second</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fvc">FVC (ml)</label>
+                            <input type="number" id="fvc" name="fvc" min="500" max="6000" required>
+                            <small>Forced Vital Capacity</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pef">PEF (L/min)</label>
+                            <input type="number" id="pef" name="pef" min="100" max="800" required>
+                            <small>Peak Expiratory Flow</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fev1_fvc_ratio">FEV1/FVC Ratio</label>
+                            <input type="number" id="fev1_fvc_ratio" name="fev1_fvc_ratio" min="0.3" max="1.0" step="0.01" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-columns">
+                    <!-- Column 4 -->
+                    <div class="form-column">
+                        <h3>Medical History</h3>
+                        
+                        <div class="form-group">
+                            <label for="diabetes">Diabetes</label>
+                            <select id="diabetes" name="diabetes" required>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="hypertension">Hypertension</label>
+                            <select id="hypertension" name="hypertension" required>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="muscular_weakness">Muscular Weakness</label>
+                            <select id="muscular_weakness" name="muscular_weakness" required>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 5 -->
+                    <div class="form-column">
+                        <h3>Exercise Tolerance</h3>
+                        
+                        <div class="form-group">
+                            <label for="mwt1">6-Minute Walk Test - Distance (m)</label>
+                            <input type="number" id="mwt1" name="mwt1" min="100" max="700" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mwt2">6-Minute Walk Test - SpO2 Change (%)</label>
+                            <input type="number" id="mwt2" name="mwt2" min="-20" max="0" step="1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="exercise_tolerance">Exercise Tolerance (1-10)</label>
+                            <input type="number" id="exercise_tolerance" name="exercise_tolerance" min="1" max="10" required>
+                            <small>Self-reported ability to exercise (1=worst, 10=best)</small>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 6 -->
+                    <div class="form-column">
+                        <h3>Symptoms Assessment</h3>
+                        
+                        <div class="form-group">
+                            <label for="sgrq_score">SGRQ Score (0-100)</label>
+                            <input type="number" id="sgrq_score" name="sgrq_score" min="0" max="100" required>
+                            <small>St. George's Respiratory Questionnaire score</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cough">Chronic Cough Frequency</label>
+                            <select id="cough" name="cough" required>
+                                <option value="0">Never</option>
+                                <option value="1">Occasionally</option>
+                                <option value="2">Daily</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="breathlessness">Breathlessness Level</label>
+                            <select id="breathlessness" name="breathlessness" required>
+                                <option value="0">None</option>
+                                <option value="1">Mild (only with strenuous exercise)</option>
+                                <option value="2">Moderate (walking on level ground)</option>
+                                <option value="3">Severe (after walking 100m)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-submit">
+                    <button type="submit" class="btn primary">
+                        <i class="fas fa-heartbeat"></i> Assess My COPD Risk
+                    </button>
+                </div>
+            </form>
+            
+            <div class="prediction-result" id="predictionResult">
+                <div class="result-content">
+                    <div class="result-header">
+                        <h3>Your COPD Risk Assessment</h3>
+                        <div class="confidence-badge" id="confidenceBadge">
+                            Confidence: <span id="confidenceValue">--</span>%
+                        </div>
+                    </div>
+                    
+                    <div class="risk-level">
+                        <div class="risk-label" id="riskLabel">Complete the form to see your assessment</div>
+                        <div class="severity-meter">
+                            <div class="severity-scale">
+                                <span class="severity-level" data-level="0">No COPD</span>
+                                <span class="severity-level" data-level="1">Mild</span>
+                                <span class="severity-level" data-level="2">Moderate</span>
+                                <span class="severity-level" data-level="3">Severe</span>
+                            </div>
+                            <div class="severity-indicator" id="severityIndicator"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-details">
+                        <h4>Key Factors in Your Assessment:</h4>
+                        <ul id="keyFactors">
+                            <!-- Will be populated by JavaScript -->
+                        </ul>
+                        
+                        <div class="recommendations" id="recommendations">
+                            <h4>Recommendations:</h4>
+                            <p>Complete the assessment to receive personalized recommendations.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="result-actions">
+                        <button class="btn secondary" id="connectBtn">
+                            <i class="fas fa-user-md"></i> Connect with Specialist
+                        </button>
+                        <button class="btn outline" id="downloadBtn">
+                            <i class="fas fa-download"></i> Download Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Doctor Connection Section -->
+    <section class="doctor-connect" id="connect">
+        <div class="container">
+            <h2>Connect with COPD Specialists</h2>
+            <p>Our network of pulmonologists and respiratory therapists are ready to help you manage and understand your condition.</p>
+            
+            <div class="connect-options">
+                <div class="option-card">
+                    <i class="fas fa-video"></i>
+                    <h3>Video Consultation</h3>
+                    <p>Real-time video consultation with board-certified pulmonologists from the comfort of your home.</p>
+                    <button class="btn primary">Schedule Now</button>
+                </div>
+                
+                <div class="option-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>Chat with Specialist</h3>
+                    <p>Secure messaging with respiratory specialists for non-urgent questions and follow-ups.</p>
+                    <button class="btn primary">Start Chat</button>
+                </div>
+                
+                <div class="option-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>In-Person Visit</h3>
+                    <p>Find and book appointments with top-rated COPD specialists in your area.</p>
+                    <button class="btn primary">Find Doctors</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stat-item">
+                <h3>16 Million</h3>
+                <p>Americans diagnosed with COPD</p>
+            </div>
+            <div class="stat-item">
+                <h3>50%</h3>
+                <p>Undiagnosed cases of COPD</p>
+            </div>
+            <div class="stat-item">
+                <h3>3rd</h3>
+                <p>Leading cause of death worldwide</p>
+            </div>
+            <div class="stat-item">
+                <h3>80-90%</h3>
+                <p>Cases caused by smoking</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prevention Tips -->
+    <section class="prevention">
+        <div class="container">
+            <h2>Prevention & Management Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <i class="fas fa-smoking-ban"></i>
+                    <h3>Quit Smoking</h3>
+                    <p>The most important step in preventing COPD and slowing its progression.</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-air-freshener"></i>
+                    <h3>Avoid Pollutants</h3>
+                    <p>Reduce exposure to secondhand smoke, chemical fumes, dust, and air pollution.</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-dumbbell"></i>
+                    <h3>Stay Active</h3>
+                    <p>Regular exercise can strengthen respiratory muscles and improve endurance.</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-syringe"></i>
+                    <h3>Get Vaccinated</h3>
+                    <p>Annual flu shots and pneumonia vaccines help prevent serious complications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p>Have questions about COPD or our services? Reach out to our support team.</p>
+                    
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <span>1-800-BREATHE</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>support@breatheeasy.com</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Health Plaza, Boston, MA 02115</span>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>BreatheEasy</h3>
+                    <p>Empowering individuals with COPD awareness, early detection tools, and specialist connections.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#predict">COPD Prediction</a></li>
+                        <li><a href="#connect">Doctor Connection</a></li>
+                        <li><a href="#about">About COPD</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">COPD Treatment Options</a></li>
+                        <li><a href="#">Living with COPD</a></li>
+                        <li><a href="#">Clinical Trials</a></li>
+                        <li><a href="#">Support Groups</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for the latest COPD research and health tips.</p>
+                    <form id="newsletterForm">
+                        <input type="email" placeholder="Your Email" required>
+                        <button type="submit" class="btn primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 BreatheEasy. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">HIPAA Compliance</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
