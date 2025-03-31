@@ -1,43 +1,27 @@
 // DOM Elements
-const copdForm = document.getElementById('copdForm');
-const predictionResult = document.getElementById('predictionResult');
-const riskLabel = document.getElementById('riskLabel');
-const confidenceValue = document.getElementById('confidenceValue');
-const severityIndicator = document.getElementById('severityIndicator');
-const keyFactorsList = document.getElementById('keyFactors');
-const recommendationsDiv = document.getElementById('recommendations');
+const copdForm = document.getElementById("copdForm");
+const predictionResult = document.getElementById("predictionResult");
+const riskLabel = document.getElementById("riskLabel");
+const confidenceValue = document.getElementById("confidenceValue");
+const severityIndicator = document.getElementById("severityIndicator");
+const keyFactorsList = document.getElementById("keyFactors");
+const recommendationsDiv = document.getElementById("recommendations");
 
-// Feature order MUST match backend's FEATURES_ORDER
-const FEATURE_MAP = {
-    'age': { el: 'age', type: 'number' },
-    'height': { el: 'height', type: 'number' },
-    'weight': { el: 'weight', type: 'number' },
-    'bmi': { el: 'bmi', type: 'number' },
-    'fev1': { el: 'fev1', type: 'number' },
-    'fvc': { el: 'fvc', type: 'number' },
-    'pef': { el: 'pef', type: 'number' },
-    'fev1_fvc_ratio': { el: 'fev1_fvc_ratio', type: 'number' },
-    'pack_years': { el: 'pack_years', type: 'number' },
-    'diabetes': { el: 'diabetes', type: 'select' },
-    'hypertension': { el: 'hypertension', type: 'select' },
-    'muscular_weakness': { el: 'muscular_weakness', type: 'select' },
-    'gender': { el: 'gender', type: 'select' },
-    'smoking_status': { el: 'smoking_status', type: 'select' },
-    'mwt1': { el: 'mwt1', type: 'number' },
-    'mwt2': { el: 'mwt2', type: 'number' },
-    'sgrq_score': { el: 'sgrq_score', type: 'number' },
-    'exercise_tolerance': { el: 'exercise_tolerance', type: 'number' },
-    'cough': { el: 'cough', type: 'select' },
-    'breathlessness': { el: 'breathlessness', type: 'select' },
-    'wheezing': { el: 'wheezing', type: 'select' },
-    'exacerbations': { el: 'exacerbations', type: 'number' },
-    'medications': { el: 'medications', type: 'number' }
-};
+// API URL (Change if hosted elsewhere)
+const API_URL = "http://localhost:5000/predict"; 
+
+// Feature order MUST match backend's expected order
+const FEATURE_MAP = [
+    "age", "height", "weight", "bmi", "fev1", "fvc", "pef", "fev1_fvc_ratio",
+    "pack_years", "diabetes", "hypertension", "muscular_weakness", "gender", 
+    "smoking_status", "mwt1", "mwt2", "sgrq_score", "exercise_tolerance",
+    "cough", "breathlessness", "wheezing", "exacerbations", "medications"
+];
 
 // Form Submission Handler
-copdForm.addEventListener('submit', async (e) => {
+copdForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+
     // Show loading state
     predictionResult.innerHTML = `
         <div class="loading-state">
@@ -47,34 +31,36 @@ copdForm.addEventListener('submit', async (e) => {
     `;
 
     try {
-        // Prepare data in exact backend order
-        const formData = {};
-        for (const [feature, config] of Object.entries(FEATURE_MAP)) {
-            const element = document.getElementById(config.el);
-            formData[feature] = config.type === 'number' ? 
-                parseFloat(element.value) : 
-                parseInt(element.value);
-        }
+        // Prepare feature array in exact backend order
+        const features = FEATURE_MAP.map((feature) => {
+            const element = document.getElementById(feature);
+            if (!element) return 0; // Default to 0 if element not found
+            return element.type === "number" ? parseFloat(element.value) || 0 : parseInt(element.value) || 0;
+        });
 
-        // Call backend API
-        const response = await fetch('http://localhost:5000/predict', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
+        console.log("Sending Data:", { features });
+
+        // Send request to backend
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ features }),
         });
 
         if (!response.ok) throw new Error(await response.text());
-        
+
         const result = await response.json();
-        displayResults(result, formData);
-        
+        console.log("API Response:", result);
+
+        // Display results
+        displayResults(result.prediction);
     } catch (error) {
-        console.error('Prediction error:', error);
+        console.error("Prediction error:", error);
         predictionResult.innerHTML = `
             <div class="error-state">
                 <i class="fas fa-exclamation-triangle"></i>
                 <h4>Assessment Error</h4>
-                <p>${error.message || 'Failed to get prediction'}</p>
+                <p>${error.message || "Failed to get prediction"}</p>
                 <button class="btn outline" onclick="location.reload()">
                     <i class="fas fa-sync-alt"></i> Try Again
                 </button>
@@ -84,71 +70,93 @@ copdForm.addEventListener('submit', async (e) => {
 });
 
 // Display Results
-function displayResults(result, formData) {
-    // Update risk level
-    riskLabel.textContent = result.risk_level;
-    
-    // Update confidence
-    confidenceValue.textContent = (result.confidence * 100).toFixed(1);
-    
-    // Update severity meter (0-3 → 0-100%)
-    severityIndicator.style.left = `${result.severity * 25}%`;
-    
-    // Highlight active severity level
-    document.querySelectorAll('.severity-level').forEach((level, index) => {
-        level.classList.toggle('active', index === result.severity);
-    });
-    
-    // Show key contributing factors
-    keyFactorsList.innerHTML = identifyKeyFactors(formData, result.severity)
-        .map(factor => `<li><strong>${factor.name}:</strong> ${factor.value} (${factor.impact})</li>`)
-        .join('');
-    
-    // Show recommendations
-    recommendationsDiv.innerHTML = `
-        <h4>Recommendations:</h4>
-        <p>${getRecommendations(result.severity)}</p>
-        <div class="recommendation-actions">
-            <button class="btn small" onclick="window.location.href='#about'">
-                <i class="fas fa-book-medical"></i> Learn More
-            </button>
-            <button class="btn small" id="connectBtn">
-                <i class="fas fa-user-md"></i> Consult Specialist
-            </button>
-        </div>
-    `;
-    
-    // Show result section
-    predictionResult.style.display = 'block';
+function displayResults(result) {
+    if (result === "High") {
+        predictionResult.innerHTML = `
+            <div class="high-risk-state">
+                <i class="fas fa-heartbeat"></i>
+                <h3>High Risk COPD Assessment</h3>
+                <div class="risk-details">
+                    <h4>Important Steps to Take:</h4>
+                    <ul>
+                        <li>Schedule an immediate appointment with your pulmonologist</li>
+                        <li>Keep your rescue inhaler with you at all times</li>
+                        <li>Monitor your symptoms daily</li>
+                        <li>Follow your medication schedule strictly</li>
+                        <li>Avoid exposure to smoke and air pollutants</li>
+                    </ul>
+                    <div class="tips-section">
+                        <h4>Lifestyle Tips:</h4>
+                        <ul>
+                            <li>Practice breathing exercises regularly</li>
+                            <li>Maintain good indoor air quality</li>
+                            <li>Stay up to date with vaccinations</li>
+                            <li>Join a COPD support group</li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="btn primary" id="connectBtn">
+                    <i class="fas fa-user-md"></i> Connect with Specialist
+                </button>
+            </div>
+        `;
+    } else {
+        predictionResult.innerHTML = `
+            <div class="low-risk-state">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Low Risk Assessment</h3>
+                <div class="wellness-tips">
+                    <h4>Maintain Your Health:</h4>
+                    <ul>
+                        <li>Continue regular exercise and physical activity</li>
+                        <li>Maintain a balanced diet rich in nutrients</li>
+                        <li>Stay hydrated and get adequate rest</li>
+                        <li>Schedule regular check-ups</li>
+                    </ul>
+                    <div class="prevention-tips">
+                        <h4>Prevention Tips:</h4>
+                        <ul>
+                            <li>Avoid smoking and second-hand smoke</li>
+                            <li>Practice good hygiene</li>
+                            <li>Keep your living space well-ventilated</li>
+                            <li>Stay active and maintain a healthy lifestyle</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="encouragement">
+                    <p>Great job maintaining your health! Keep up these healthy habits to stay well.</p>
+                </div>
+            </div>
+        `;
+    }
 }
-
-// Helper Functions
-function identifyKeyFactors(formData, severity) {
+// Identify Key Factors Contributing to Risk
+function identifyKeyFactors(features, severity) {
     const factors = [];
     
     // Smoking history
-    if (formData.smoking_status > 0 && formData.pack_years >= 10) {
+    if (features[9] > 0 && features[8] >= 10) {
         factors.push({
             name: "Smoking History",
-            value: `${formData.pack_years} pack-years`,
+            value: `${features[8]} pack-years`,
             impact: severity >= 2 ? "Major risk factor" : "Significant contributor"
         });
     }
     
     // Lung function
-    if (formData.fev1_fvc_ratio < 0.7) {
+    if (features[7] < 0.7) {
         factors.push({
             name: "FEV1/FVC Ratio",
-            value: formData.fev1_fvc_ratio.toFixed(2),
+            value: features[7].toFixed(2),
             impact: "Key diagnostic indicator"
         });
     }
     
     // Symptoms
-    if (formData.sgrq_score >= 50) {
+    if (features[16] >= 50) {
         factors.push({
             name: "Symptom Score",
-            value: formData.sgrq_score,
+            value: features[16],
             impact: "High symptom burden"
         });
     }
@@ -156,6 +164,7 @@ function identifyKeyFactors(formData, severity) {
     return factors;
 }
 
+// Get Recommendations Based on Severity
 function getRecommendations(severity) {
     const recommendations = [
         "Maintain regular checkups and monitor symptoms.",
@@ -167,8 +176,8 @@ function getRecommendations(severity) {
 }
 
 // Connect with Specialist Button
-document.addEventListener('click', (e) => {
-    if (e.target.id === 'connectBtn') {
-        window.location.href = '#connect';
+document.addEventListener("click", (e) => {
+    if (e.target.id === "connectBtn") {
+        window.location.href = "#connect";
     }
 });
