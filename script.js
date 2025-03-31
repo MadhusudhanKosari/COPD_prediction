@@ -8,7 +8,7 @@ const keyFactorsList = document.getElementById("keyFactors");
 const recommendationsDiv = document.getElementById("recommendations");
 
 // API URL (Change if hosted elsewhere)
-const API_URL = "http://localhost:5000/predict"; 
+const API_URL = "https://copd-backend.onrender.com/predict"; 
 
 // Feature order MUST match backend's expected order
 const FEATURE_MAP = [
