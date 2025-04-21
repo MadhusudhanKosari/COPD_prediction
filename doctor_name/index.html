@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect with Doctor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="appointment-container">
+        <header class="appointment-header">
+            <h1>Connect with a Doctor</h1>
+            <p>Book an appointment with our certified healthcare professionals</p>
+        </header>
+
+        <div class="doctor-selection">
+            <h2>Select a Doctor</h2>
+            <div class="doctor-cards">
+                <div class="doctor-card" data-id="1">
+                    <img src="https://img.freepik.com/free-photo/doctor-with-his-arms-crossed-white-background_1368-5790.jpg" alt="Dr. Sarah Johnson">
+                    <h3>Dr. Sarah Johnson</h3>
+                    <p>Cardiologist</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>4.7 (128 reviews)</span>
+                    </div>
+                    <button class="select-btn">Select</button>
+                </div>
+
+                <div class="doctor-card" data-id="2">
+                    <img src="https://img.freepik.com/free-photo/young-bearded-man-with-stethoscope_273609-20597.jpg" alt="Dr. Michael Chen">
+                    <h3>Dr. Michael Chen</h3>
+                    <p>Neurologist</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <span>4.2 (95 reviews)</span>
+                    </div>
+                    <button class="select-btn">Select</button>
+                </div>
+
+                <div class="doctor-card" data-id="3">
+                    <img src="https://img.freepik.com/free-photo/indian-doctor-standing-with-his-arms-crossed_1368-5794.jpg" alt="Dr. Priya Patel">
+                    <h3>Dr. Priya Patel</h3>
+                    <p>Pediatrician</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span>5.0 (210 reviews)</span>
+                    </div>
+                    <button class="select-btn">Select</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="appointment-form-container" style="display: none;">
+            <h2>Book Your Appointment</h2>
+            <form id="appointmentForm" class="appointment-form">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="appointmentDate">Preferred Date</label>
+                    <input type="date" id="appointmentDate" name="appointmentDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="appointmentTime">Preferred Time</label>
+                    <select id="appointmentTime" name="appointmentTime" required>
+                        <option value="">Select a time</option>
+                        <option value="09:00-10:00">09:00 AM - 10:00 AM</option>
+                        <option value="10:00-11:00">10:00 AM - 11:00 AM</option>
+                        <option value="11:00-12:00">11:00 AM - 12:00 PM</option>
+                        <option value="13:00-14:00">01:00 PM - 02:00 PM</option>
+                        <option value="14:00-15:00">02:00 PM - 03:00 PM</option>
+                        <option value="15:00-16:00">03:00 PM - 04:00 PM</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="symptoms">Symptoms/Reason for Visit</label>
+                    <textarea id="symptoms" name="symptoms" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="back-btn">Back to Doctors</button>
+                    <button type="submit" class="submit-btn">Book Appointment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="confirmationModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Appointment Booked Successfully!</h2>
+            <p>Your appointment with <span id="confirmedDoctor">Dr. Sarah Johnson</span> has been scheduled.</p>
+            <p>Date: <span id="confirmedDate">June 15, 2023</span></p>
+            <p>Time: <span id="confirmedTime">10:00 AM - 11:00 AM</span></p>
+            <p>A confirmation has been sent to your email.</p>
+            <button class="modal-close-btn">Close</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
