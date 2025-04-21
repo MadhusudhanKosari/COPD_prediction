@@ -9,6 +9,16 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Add Back Button -->
+    <div class="back-navigation">
+        <a href="../index.html">
+            <button id="backButton" class="back-home-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Dashboard</span>
+            </button>
+        </a>
+    </div>
+
     <div class="appointment-container">
         <header class="appointment-header">
             <h1>Connect with a Doctor</h1>
@@ -51,7 +61,7 @@
                 <div class="doctor-card" data-id="3">
                     <img src="https://img.freepik.com/free-photo/indian-doctor-standing-with-his-arms-crossed_1368-5794.jpg" alt="Dr. Priya Patel">
                     <h3>Dr. Priya Patel</h3>
-                    <p>Pediatrician</p>
+                    <p>Pulmonologist</p>
                     <div class="rating">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -122,7 +132,7 @@
     <!-- Confirmation Modal -->
     <div class="modal-overlay" id="confirmationModal" style="display: none;">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <span class="close-modal">×</span>
             <div class="modal-icon">
                 <i class="fas fa-check-circle"></i>
             </div>
