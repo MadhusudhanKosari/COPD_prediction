@@ -181,3 +181,131 @@ document.addEventListener("click", (e) => {
         window.location.href = "#connect";
     }
 });
+// DOM Elements
+const chatbotToggle = document.getElementById('chatbotToggle');
+const chatbotWindow = document.getElementById('chatbotWindow');
+const closeChatbot = document.getElementById('closeChatbot');
+const chatbotMessages = document.getElementById('chatbotMessages');
+const userMessageInput = document.getElementById('userMessage');
+const sendMessageBtn = document.getElementById('sendMessage');
+
+// Toggle Chatbot
+chatbotToggle.addEventListener('click', () => {
+  chatbotWindow.style.display = 'flex';
+  chatbotToggle.style.display = 'none';
+});
+
+closeChatbot.addEventListener('click', () => {
+  chatbotWindow.style.display = 'none';
+  chatbotToggle.style.display = 'flex';
+});
+
+// Send Message Function
+async function sendMessage() {
+  const message = userMessageInput.value.trim();
+  if (!message) return;
+
+  // Add user message
+  addMessage(message, 'user');
+  userMessageInput.value = '';
+
+  // Show typing indicator
+  showTypingIndicator();
+
+  try {
+    const response = await getAIResponse(message);
+    addMessage(response, 'bot');
+  } catch (error) {
+    addMessage("Sorry, I can't respond right now. Please try again later.", 'bot');
+  } finally {
+    hideTypingIndicator();
+  }
+}
+
+// Typing Indicator
+function showTypingIndicator() {
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'chatbot-typing-indicator';
+  typingDiv.id = 'typingIndicator';
+  typingDiv.innerHTML = '<span></span><span></span><span></span>';
+  chatbotMessages.appendChild(typingDiv);
+  chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+function hideTypingIndicator() {
+  const typingIndicator = document.getElementById('typingIndicator');
+  if (typingIndicator) typingIndicator.remove();
+}
+
+// Add Message to Chat
+function addMessage(text, sender) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `chatbot-message chatbot-message-${sender}`;
+  messageDiv.innerHTML = `<p>${text}</p>`;
+  chatbotMessages.appendChild(messageDiv);
+  chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+// AI Response (Gemini API)
+async function getAIResponse(userInput) {
+  const lowerInput = userInput.toLowerCase();
+
+  // Check greetings
+  if (lowerInput.includes('hi') || lowerInput.includes('hello')) {
+    return "Hello! I'm here to help with COPD. Ask me about symptoms, treatments, or management.";
+  }
+
+  // Check thanks
+  if (lowerInput.includes('thank')) {
+    return "You're welcome! Let me know if you have other COPD questions.";
+  }
+
+  // Verify if question is COPD-related
+  const isCOPDQuestion = await checkCOPDRelevance(userInput);
+  if (!isCOPDQuestion) {
+    return "I specialize in COPD (Chronic Obstructive Pulmonary Disease). Please ask me about symptoms, treatments, or management.";
+  }
+
+  // Get AI response
+  const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=YOUR_API_KEY', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{
+        parts: [{
+          text: `As a COPD specialist, provide a concise 2-3 sentence answer: ${userInput}`
+        }]
+      }],
+      safetySettings: [{
+        category: "HARM_CATEGORY_MEDICAL",
+        threshold: "BLOCK_MEDIUM_AND_ABOVE"
+      }]
+    })
+  });
+
+  const data = await response.json();
+  return data.candidates[0].content.parts[0].text;
+}
+
+async function checkCOPDRelevance(question) {
+  const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=YOUR_API_KEY', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{
+        parts: [{
+          text: `Is this about COPD? Answer only 'yes' or 'no': ${question}`
+        }]
+      }]
+    })
+  });
+
+  const data = await response.json();
+  return data.candidates[0].content.parts[0].text.toLowerCase().includes('yes');
+}
+
+// Event Listeners
+sendMessageBtn.addEventListener('click', sendMessage);
+userMessageInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') sendMessage();
+});
