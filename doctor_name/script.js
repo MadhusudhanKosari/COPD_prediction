@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             id: 3,
-            name: "Dr. Priya Patel",
-            specialty: "Pediatrician",
+            name: "Dr. Prathik Patel",
+            specialty: "Pulmonologist",
             rating: 5.0,
             reviews: 210
         }
