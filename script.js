@@ -261,13 +261,13 @@ async function getAIResponse(userInput) {
   }
 
   // Verify if question is COPD-related
-  const isCOPDQuestion = await checkCOPDRelevance(userInput);
-  if (!isCOPDQuestion) {
-    return "I specialize in COPD (Chronic Obstructive Pulmonary Disease). Please ask me about symptoms, treatments, or management.";
-  }
+  // const isCOPDQuestion = await checkCOPDRelevance(userInput);
+  // if (!isCOPDQuestion) {
+  //   return "I specialize in COPD (Chronic Obstructive Pulmonary Disease). Please ask me about symptoms, treatments, or management.";
+  // }
 
   // Get AI response
-  const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=YOUR_API_KEY', {
+  const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyBe4sDrRDp5Ji2NGpfr6xlLiBUhVQTqBEs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -277,7 +277,7 @@ async function getAIResponse(userInput) {
         }]
       }],
       safetySettings: [{
-        category: "HARM_CATEGORY_MEDICAL",
+        category: "HARM_CATEGORY_DANGEROUS_CONTENT",
         threshold: "BLOCK_MEDIUM_AND_ABOVE"
       }]
     })
@@ -288,7 +288,7 @@ async function getAIResponse(userInput) {
 }
 
 async function checkCOPDRelevance(question) {
-  const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=YOUR_API_KEY', {
+  const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyA2nCpkcmdWH_8p8cyGBHASMKUwidUkzPI', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
