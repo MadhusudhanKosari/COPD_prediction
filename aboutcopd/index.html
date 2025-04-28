@@ -413,7 +413,7 @@
                     const createChatLi = (message, className) => {
                         const chatLi = document.createElement("li");
                         chatLi.classList.add("chat", className);
-                        let chatContent = className === "outgoing" ? `<p></p>` : `<span class="material-symbols-outlined">eco</span><p></p>`;
+                        let chatContent = className === "outgoing" ? `<p></p>` : `<span class="material-symbols-outlined">message</span><p></p>`;
                         chatLi.innerHTML = chatContent;
                         chatLi.querySelector("p").textContent = message;
                         return chatLi;
@@ -421,7 +421,16 @@
     
                     const generateResponse = async (chatElement) => {
                         const messageElement = chatElement.querySelector("p");
-    
+                        
+                        // Check if the message contains COPD-related keywords
+                        const copdKeywords = ['copd', 'chronic obstructive pulmonary disease', 'emphysema', 'bronchitis', 'lung', 'breathing', 'respiratory', 'inhaler', 'breathe', 'oxygen', 'pulmonary'];
+                        const containsCopdKeywords = copdKeywords.some(keyword => userMessage.toLowerCase().includes(keyword));
+                        
+                        if (!containsCopdKeywords) {
+                            messageElement.textContent = "I apologize, but I can only assist with COPD-related questions. Please ask something about COPD, its symptoms, treatment, or management.";
+                            return;
+                        }
+
                         const requestOptions = {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
@@ -485,7 +494,7 @@
         </head>
         <body>
             <button class="chatbot-toggler">
-                <span class="material-symbols-rounded">forum</span>
+                <span class="material-symbols-outlined">message</span>
                 <span class="material-symbols-outlined">close</span>
             </button>
             <div class="chatbot">
@@ -495,8 +504,8 @@
                 </header>
                 <ul class="chatbox">
                     <li class="chat incoming">
-                        <span class="material-symbols-outlined">eco</span>
-                        <p>Hello! I'm your BreatheWise assistant. How can I help you with COPD-related questions today?</p>
+                        <span class="material-symbols-outlined">message</span>
+                        <p>Hello! I'm your BreatheWise assistant. I can help you with COPD-related questions only. What would you like to know about COPD?</p>
                     </li>
                 </ul>
                 <div class="chat-input">

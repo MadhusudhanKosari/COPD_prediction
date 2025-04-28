@@ -663,7 +663,7 @@
                     const createChatLi = (message, className) => {
                         const chatLi = document.createElement("li");
                         chatLi.classList.add("chat", className);
-                        let chatContent = className === "outgoing" ? `<p></p>` : `<span class="material-symbols-outlined">medical_services</span><p></p>`;
+                        let chatContent = className === "outgoing" ? `<p></p>` : `<span class="material-symbols-outlined">message</span><p></p>`;
                         chatLi.innerHTML = chatContent;
                         chatLi.querySelector("p").textContent = message;
                         return chatLi;
@@ -744,7 +744,7 @@
         </head>
         <body>
             <button class="chatbot-toggler">
-                <span class="material-symbols-outlined">medical_services</span>
+                <span class="material-symbols-outlined">message</span>
                 <span class="material-symbols-outlined">close</span>
             </button>
             <div class="chatbot">
@@ -754,7 +754,7 @@
                 </header>
                 <ul class="chatbox">
                     <li class="chat incoming">
-                        <span class="material-symbols-outlined">medical_services</span>
+                        <span class="material-symbols-outlined">message</span>
                         <p>Hello! I'm your BreatheWise assistant. I can help you with COPD-related questions only. What would you like to know about COPD?</p>
                     </li>
                 </ul>
